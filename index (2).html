@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+
+    --america: #1B6B3A;
+    --america-light: #E8F5EE;
+    --europa: #1A4A8C;
+    --europa-light: #E8EEF8;
+    --asia: #B5330A;
+    --asia-light: #FBF0EC;
+    --africa: #B87B0A;
+    --africa-light: #FBF4E3;
+    --oceania: #0A7A72;
+    --oceania-light: #E3F6F5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196,133,26,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 span { color: var(--amber); }
+  .hero p {
+    font-size: 1rem;
+    color: rgba(253,248,240,0.65);
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .hero-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ─── SECTION ─── */
+  .section-label {
+    text-align: center;
+    padding: 4rem 2rem 0.5rem;
+  }
+  .section-label p {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .section-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ─── CONTINENTS GRID ─── */
+  .continents-section { padding: 2rem 2rem 5rem; }
+  .continents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 2.5rem auto 0;
+  }
+  .continent-card {
+    display: block;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.2rem 1.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    text-decoration: none;
+    color: inherit;
+  }
+  .continent-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--c-accent, var(--amber));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  .continent-card:hover::after { transform: scaleX(1); }
+  .continent-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 16px 40px rgba(26,18,8,0.12);
+    border-color: var(--c-accent, var(--amber));
+  }
+  .c-flag { font-size: 2.8rem; margin-bottom: 0.8rem; display: block; line-height: 1; }
+  .c-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+  .c-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .c-link-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.68rem;
+    color: var(--c-accent, var(--amber));
+    margin-top: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .continent-card:hover .c-link-hint { opacity: 1; }
+
+  /* ─── TEAM ─── */
+  .team-section {
+    padding: 4rem 2rem 5rem;
+    text-align: center;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+  .team-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .team-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .team-card {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(26,18,8,0.09);
+    border-color: var(--amber);
+  }
+  .team-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--amber-light);
+    border: 2px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--amber);
+    font-family: 'Playfair Display', serif;
+  }
+  .team-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .continents-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Un viaje por los sabores del mundo</p>
+  <h1>Gastronomía<br><span>Mundial</span></h1>
+  <p>Descubre los platillos más icónicos de cada continente, su historia, ingredientes y el alma de cada cultura.</p>
+  <div class="hero-scroll">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    Explora los continentes
+  </div>
+</section>
+
+<!-- CONTINENTS -->
+<section class="section-label">
+  <p>Selecciona tu destino</p>
+  <h2>¿Qué continente quieres explorar?</h2>
+</section>
+
+<section class="continents-section">
+  <div class="continents-grid" id="contGrid">
+
+    <a class="continent-card" href="america.html" style="--c-accent:var(--america);--c-light:var(--america-light)">
+      <span class="c-flag">🌎</span>
+      <div class="c-name">América</div>
+      <div class="c-sub">5 platillos icónicos</div>
+      <div class="c-link-hint">Explorar →</div>
+    </a>
+
+    <a class="continent-card" href="europa.html" style="--c-accent:var(--europa);--c-light:var(--europa-light)">
+      <span class="c-flag">🌍</span>
+      <div class="c-name">Europa</div>
+      <div class="c-sub">5 platillos icónicos</div>
+      <div class="c-link-hint">Explorar →</div>
+    </a>
+
+    <a class="continent-card" href="asia.html" style="--c-accent:var(--asia);--c-light:var(--asia-light)">
+      <span class="c-flag">🌏</span>
+      <div class="c-name">Asia</div>
+      <div class="c-sub">5 platillos icónicos</div>
+      <div class="c-link-hint">Explorar →</div>
+    </a>
+
+    <a class="continent-card" href="africa.html" style="--c-accent:var(--africa);--c-light:var(--africa-light)">
+      <span class="c-flag">🌍</span>
+      <div class="c-name">África</div>
+      <div class="c-sub">5 platillos icónicos</div>
+      <div class="c-link-hint">Explorar →</div>
+    </a>
+
+    <a class="continent-card" href="oceania.html" style="--c-accent:var(--oceania);--c-light:var(--oceania-light)">
+      <span class="c-flag">🌏</span>
+      <div class="c-name">Oceanía</div>
+      <div class="c-sub">5 platillos icónicos</div>
+      <div class="c-link-hint">Explorar →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <p class="team-eyebrow">Proyecto elaborado por</p>
+  <h2 class="team-title">Equipo</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">CG</div>
+      <div class="team-name">Castellanos González<br>Armando</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">GZ</div>
+      <div class="team-name">García Zumaya<br>Romina</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">HR</div>
+      <div class="team-name">Hernández Ramírez<br>Mariana René</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">JA</div>
+      <div class="team-name">Jiménez Avendaño<br>Fabian Eduardo</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">RG</div>
+      <div class="team-name">Reséndiz García<br>Leonardo Javier</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">ZH</div>
+      <div class="team-name">Zarate Hernández<br>Magdiel Antonio</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">ZM</div>
+      <div class="team-name">Zarate Medrano<br>David Gabriel</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; Un recorrido por los sabores de <span>5 continentes</span></p>
+</footer>
+
+</body>
+</html>
