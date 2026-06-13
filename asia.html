@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asia – Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+    --c-accent: #B5330A;
+    --c-light: #FBF0EC;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    background: var(--deep);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid rgba(196,133,26,0.35);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgba(253,248,240,0.7);
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(196,133,26,0.15); border-color: var(--amber); color: var(--cream); }
+  .top-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  /* ─── HERO ─── */
+  .continent-hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(196,133,26,0.15);
+  }
+  .continent-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 100%, color-mix(in srgb, #B5330A 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .continent-hero .flag { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .continent-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .continent-hero p {
+    font-size: 0.95rem;
+    color: rgba(253,248,240,0.6);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  /* ─── DISHES ─── */
+  .dishes-section { padding: 3rem 2rem 5rem; }
+  .dishes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .dish-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+  }
+  .dish-item:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.09); }
+  .dish-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 200px;
+  }
+  .dish-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #EDE8DF;
+  }
+  .dish-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .dish-item:hover .dish-img-wrap img { transform: scale(1.04); }
+  .dish-emoji-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--c-light);
+  }
+  .dish-content {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .dish-origin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--c-light);
+    color: var(--c-accent);
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .dish-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+  }
+  .dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .dish-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .dish-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-accent);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .dish-toggle svg { transition: transform 0.3s ease; flex-shrink: 0; }
+  .dish-item.open .dish-toggle svg { transform: rotate(180deg); }
+  .dish-expanded {
+    display: none;
+    padding: 0 1.8rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: expandDown 0.3s ease;
+  }
+  @keyframes expandDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .dish-item.open .dish-expanded { display: block; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  .exp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .exp-card.full { grid-column: 1 / -1; }
+  .exp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .exp-val.accent { color: var(--c-accent); font-weight: 600; }
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .dish-main { grid-template-columns: 1fr; }
+    .dish-img-wrap { height: 200px; }
+    .dish-emoji-fallback { min-height: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Inicio
+  </a>
+  <div class="top-bar-title"><span>🌏</span> Asia</div>
+</div>
+
+<section class="continent-hero">
+  <span class="flag">🌏</span>
+  <h1>Asia</h1>
+  <p>Explora los platillos más emblemáticos de este continente, su historia y tradición culinaria.</p>
+</section>
+
+<section class="dishes-section">
+  <div class="dishes-grid">
+
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sushi_platter.jpg/480px-Sushi_platter.jpg" alt="Sushi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍣</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Japón</span>
+            <div class="dish-name">Sushi</div>
+            <div class="dish-desc">Arroz de grano corto (sumeshi) sazonado con vinagre de arroz, azúcar y sal, combinado con pescado crudo de grado sashimi, mariscos o vegetales. El itamae (chef) estudia entre 5-10 años para dominar la temperatura del arroz (37°C, temperatura corporal), el corte del pescado y la presión del nigiri.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~40-60 kcal por pieza</span>
+              <span class="dish-tag">📍 Periodo Edo siglo XVII · Tokio, Japón</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Tokio (Edo), Japón</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~40-60 kcal por pieza</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Arroz japonés, vinagre de arroz, atún rojo, salmón, camarón, nori, wasabi, jengibre marinado</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Periodo Edo siglo XVII · Originado en Tokio (entonces Edo), Japón</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Pechuga_de_pato_laqueado_al_estilo_Pekín.jpg/480px-Pechuga_de_pato_laqueado_al_estilo_Pekín.jpg" alt="Pato Pekinés" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🦆</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">China</span>
+            <div class="dish-name">Pato Pekinés</div>
+            <div class="dish-desc">Pato lacado con sirope de maltosa y asado en horno de madera de pera o dátil durante 60-70 minutos. La piel crujiente (el objetivo supremo) se separa de la carne, se corta en 108 láminas exactas y se come en tortitas de harina con salsa hoisin, pepino en juliana y cebollín. Fue plato imperial de la dinastía Ming.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~330 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XIV · Dinastía Ming, Beijing</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Beijing, China</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~330 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Pato raza Pekin, maltosa, salsa hoisin, tortitas de trigo, pepino, cebollín, 5 especias chinas</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XIV · Plato imperial de la Dinastía Ming, Beijing, China</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Pad-thai-noir.jpg/480px-Pad-thai-noir.jpg" alt="Pad Thai" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍜</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Tailandia</span>
+            <div class="dish-name">Pad Thai</div>
+            <div class="dish-desc">Fideos de arroz salteados en wok de acero a fuego altísimo (técnica wok hei) con huevo revuelto, tofu prensado, camarones secos o frescos y brotes de soya. Se sazona con salsa de tamarindo concentrada, azúcar de palma y salsa de pescado fermentada. Fue promovido como plato nacional tailandés por el primer ministro Phibun en los años 1940 para unificar la identidad nacional.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Street food / Platillo principal</span>
+              <span class="dish-tag">🔥 ~400 kcal por porción</span>
+              <span class="dish-tag">📍 Décadas de 1940 · Promovido como plato nacional</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Bangkok, Tailandia</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~400 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Fideos de arroz sen lek, camarones, tofu firme, huevo, brotes de soya, cacahuate tostado, tamarindo, salsa de pescado</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Décadas de 1940 · Declarado plato nacional por el PM Phibun Songkhram</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Biryani_in_a_pot%2C_2022.jpg/480px-Biryani_in_a_pot%2C_2022.jpg" alt="Biryani de Hyderabad" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍛</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">India</span>
+            <div class="dish-name">Biryani de Hyderabad</div>
+            <div class="dish-desc">Arroz basmati de grano extra-largo cocinado por el método dum (vapor sellado con pasta de harina) en capas alternadas con cordero o pollo marinado 24 horas en yogurt y más de 25 especias. El azafrán iraní tiñe el arroz de dorado. El Hyderabadi Biryani es el más reconocido globalmente, nacido en la cocina del Nizam del siglo XVII.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~550 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XVII · Cocina real del Nizam de Hyderabad</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Hyderabad, India</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~550 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Arroz basmati, cordero o pollo, yogurt, azafrán, cardamomo verde, canela, clavo, cebolla frita, hierbabuena</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XVII · Cocina de la corte real del Nizam de Hyderabad, India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Shawarma_at_a_Syrian_restaurant.jpg/480px-Shawarma_at_a_Syrian_restaurant.jpg" alt="Shawarma" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🌯</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Oriente Medio</span>
+            <div class="dish-name">Shawarma</div>
+            <div class="dish-desc">Capas de carne de cordero, res o pollo marinadas en 7 especias árabes, apiladas en trompo vertical y asadas lentamente durante horas frente a una llama. Al cortarse forman láminas jugosas con exterior crujiente. Se sirve en pan de pita o marqueta con tahini, pepinillos, tomate y hierbas. Extendido desde el Levante a todo el mundo.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Street food / Platillo principal</span>
+              <span class="dish-tag">🔥 ~450 kcal por wrap</span>
+              <span class="dish-tag">📍 Siglo XIX · Imperio Otomano, Levante</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Siria / Líbano / Turquía</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~450 kcal por wrap</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Cordero o pollo, pan pita, tahini, tomate, pepinillo, cebolla, ajo, 7 especias, sumac</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XIX · Originado en el Imperio Otomano, región del Levante</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; <a href="index.html" style="color:var(--amber);text-decoration:none;">← Volver al inicio</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dish-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.dish-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>América – Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+    --c-accent: #1B6B3A;
+    --c-light: #E8F5EE;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    background: var(--deep);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid rgba(196,133,26,0.35);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgba(253,248,240,0.7);
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(196,133,26,0.15); border-color: var(--amber); color: var(--cream); }
+  .top-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  /* ─── HERO ─── */
+  .continent-hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(196,133,26,0.15);
+  }
+  .continent-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 100%, color-mix(in srgb, #1B6B3A 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .continent-hero .flag { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .continent-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .continent-hero p {
+    font-size: 0.95rem;
+    color: rgba(253,248,240,0.6);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  /* ─── DISHES ─── */
+  .dishes-section { padding: 3rem 2rem 5rem; }
+  .dishes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .dish-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+  }
+  .dish-item:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.09); }
+  .dish-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 200px;
+  }
+  .dish-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #EDE8DF;
+  }
+  .dish-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .dish-item:hover .dish-img-wrap img { transform: scale(1.04); }
+  .dish-emoji-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--c-light);
+  }
+  .dish-content {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .dish-origin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--c-light);
+    color: var(--c-accent);
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .dish-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+  }
+  .dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .dish-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .dish-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-accent);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .dish-toggle svg { transition: transform 0.3s ease; flex-shrink: 0; }
+  .dish-item.open .dish-toggle svg { transform: rotate(180deg); }
+  .dish-expanded {
+    display: none;
+    padding: 0 1.8rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: expandDown 0.3s ease;
+  }
+  @keyframes expandDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .dish-item.open .dish-expanded { display: block; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  .exp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .exp-card.full { grid-column: 1 / -1; }
+  .exp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .exp-val.accent { color: var(--c-accent); font-weight: 600; }
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .dish-main { grid-template-columns: 1fr; }
+    .dish-img-wrap { height: 200px; }
+    .dish-emoji-fallback { min-height: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Inicio
+  </a>
+  <div class="top-bar-title"><span>🌎</span> América</div>
+</div>
+
+<section class="continent-hero">
+  <span class="flag">🌎</span>
+  <h1>América</h1>
+  <p>Explora los platillos más emblemáticos de este continente, su historia y tradición culinaria.</p>
+</section>
+
+<section class="dishes-section">
+  <div class="dishes-grid">
+
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Mexico_City_-_Taco_de_pastor_-_2.jpg/480px-Mexico_City_-_Taco_de_pastor_-_2.jpg" alt="Tacos al Pastor" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🌮</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">México</span>
+            <div class="dish-name">Tacos al Pastor</div>
+            <div class="dish-desc">Tortilla de maíz rellena de carne de cerdo marinada en achiote y especias, cocida en trompo vertical. Herencia de los inmigrantes libaneses que llegaron a México a principios del siglo XX, quienes adaptaron su shawarma con ingredientes locales como chile guajillo y piña.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~210 kcal por taco</span>
+              <span class="dish-tag">📍 Siglo XX · Influencia libanesa</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Ciudad de México, México</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~210 kcal por taco</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Cerdo, achiote, piña, cilantro, cebolla, chile guajillo, chile ancho, naranja</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XX · Influencia libanesa en México</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ceviche_peruano.jpg/480px-Ceviche_peruano.jpg" alt="Ceviche" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍋</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Perú</span>
+            <div class="dish-name">Ceviche</div>
+            <div class="dish-desc">Pescado o mariscos crudos marinados en jugo de limón o lima (leche de tigre), proceso conocido como 'cocción en frío' que desnaturaliza las proteínas sin calor. Declarado Patrimonio Cultural de la Nación peruana en 2004 y reconocido mundialmente como emblema de la cocina novoandina.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Entrada / Platillo principal</span>
+              <span class="dish-tag">🔥 ~150 kcal por porción</span>
+              <span class="dish-tag">📍 Más de 2,000 años · Origen preincaico</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Costa peruana, Perú</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~150 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Pescado blanco, ají limo, limón, cebolla morada, cilantro, maíz cancha, camote</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Más de 2,000 años · Origen preincaico, Patrimonio Cultural del Perú desde 2004</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Asado-trozos.jpg/480px-Asado-trozos.jpg" alt="Asado Argentino" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🥩</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Argentina</span>
+            <div class="dish-name">Asado Argentino</div>
+            <div class="dish-desc">Técnica de cocción de cortes bovinos a las brasas sobre parrilla metálica, símbolo cultural de Argentina y Uruguay. La tradición gaucha dicta que el asador controla el fuego y los tiempos; se incluyen achuras (vísceras) como chorizos, morcillas y mollejas como parte del ritual.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~450 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XVIII · Tradición gaucha</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Pampas, Argentina/Uruguay</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~450 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Costillas vacunas, entraña, vacío, chorizo, morcilla, chimichurri, sal gruesa</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XVIII · Tradición gaucha de las Pampas argentinas y uruguayas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Moqueca_baiana.jpg/480px-Moqueca_baiana.jpg" alt="Moqueca Baiana" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🐟</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Brasil</span>
+            <div class="dish-name">Moqueca Baiana</div>
+            <div class="dish-desc">Guiso cremoso de pescado o mariscos cocinado en cazuela de barro (panela de barro) con leche de coco, aceite de dendé (palma roja africana), tomate y pimientos. Herencia directa de la cocina afrobrasileña de Bahía, donde el aceite de dendé es el alma del plato.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~380 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XVI · Fusión indígena y africana</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Bahía, Brasil</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~380 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Pescado fresco, leche de coco, aceite de dendé, tomate, pimiento rojo, cilantro, ajo</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XVI · Fusión de tradiciones culinarias indígenas y africanas en Bahía, Brasil</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Poutine_Canadienne.jpg/480px-Poutine_Canadienne.jpg" alt="Poutine" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍟</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Canadá</span>
+            <div class="dish-name">Poutine</div>
+            <div class="dish-desc">Papas fritas gruesas cubiertas con queso cuajado fresco (cheese curds) que 'chirrían' al morderlos y bañadas en gravy caliente de carne. Nacido en Quebec en los años 50, es el platillo más reconocible de Canadá y ha generado cientos de variantes gourmet.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Street food / Comfort food</span>
+              <span class="dish-tag">🔥 ~740 kcal por porción</span>
+              <span class="dish-tag">📍 Circa 1950 · Quebec, Canadá</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Quebec, Canadá</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~740 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Papa, queso cuajado (cheese curds), gravy de ternera, pimienta negra</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Circa 1950 · Origen en Quebec, Canadá. Plato nacional no oficial</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; <a href="index.html" style="color:var(--amber);text-decoration:none;">← Volver al inicio</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dish-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.dish-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

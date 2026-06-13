@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>África – Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+    --c-accent: #B87B0A;
+    --c-light: #FBF4E3;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    background: var(--deep);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid rgba(196,133,26,0.35);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgba(253,248,240,0.7);
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(196,133,26,0.15); border-color: var(--amber); color: var(--cream); }
+  .top-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  /* ─── HERO ─── */
+  .continent-hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(196,133,26,0.15);
+  }
+  .continent-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 100%, color-mix(in srgb, #B87B0A 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .continent-hero .flag { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .continent-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .continent-hero p {
+    font-size: 0.95rem;
+    color: rgba(253,248,240,0.6);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  /* ─── DISHES ─── */
+  .dishes-section { padding: 3rem 2rem 5rem; }
+  .dishes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .dish-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+  }
+  .dish-item:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.09); }
+  .dish-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 200px;
+  }
+  .dish-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #EDE8DF;
+  }
+  .dish-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .dish-item:hover .dish-img-wrap img { transform: scale(1.04); }
+  .dish-emoji-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--c-light);
+  }
+  .dish-content {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .dish-origin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--c-light);
+    color: var(--c-accent);
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .dish-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+  }
+  .dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .dish-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .dish-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-accent);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .dish-toggle svg { transition: transform 0.3s ease; flex-shrink: 0; }
+  .dish-item.open .dish-toggle svg { transform: rotate(180deg); }
+  .dish-expanded {
+    display: none;
+    padding: 0 1.8rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: expandDown 0.3s ease;
+  }
+  @keyframes expandDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .dish-item.open .dish-expanded { display: block; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  .exp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .exp-card.full { grid-column: 1 / -1; }
+  .exp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .exp-val.accent { color: var(--c-accent); font-weight: 600; }
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .dish-main { grid-template-columns: 1fr; }
+    .dish-img-wrap { height: 200px; }
+    .dish-emoji-fallback { min-height: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Inicio
+  </a>
+  <div class="top-bar-title"><span>🌍</span> África</div>
+</div>
+
+<section class="continent-hero">
+  <span class="flag">🌍</span>
+  <h1>África</h1>
+  <p>Explora los platillos más emblemáticos de este continente, su historia y tradición culinaria.</p>
+</section>
+
+<section class="dishes-section">
+  <div class="dishes-grid">
+
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Jollof_Rice.jpg/480px-Jollof_Rice.jpg" alt="Jollof Rice" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍚</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">África Occidental</span>
+            <div class="dish-name">Jollof Rice</div>
+            <div class="dish-desc">Arroz de grano largo cocinado directamente en un concentrado sofrito de tomate, pimientos y cebollas hasta absorber todos los líquidos y adquirir un característico fondo ligeramente ahumado. Es el plato más debatido de África: existe una rivalidad histórica entre Nigeria y Ghana por su supremacía que se ha extendido a redes sociales como la 'Jollof Wars'.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~350 kcal por porción</span>
+              <span class="dish-tag">📍 Imperio Wolof siglo XIV · África Occidental</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Nigeria / Ghana / Senegal</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~350 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Arroz largo, tomate, pimiento rojo, cebolla, caldo de pollo, curry africano, pimienta, laurel</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Imperio Wolof siglo XIV · Originado en el Senegal, extendido a toda África Occidental</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Tajine_de_viande.jpg/480px-Tajine_de_viande.jpg" alt="Tajín de Cordero" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🫕</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Marruecos</span>
+            <div class="dish-name">Tajín de Cordero</div>
+            <div class="dish-desc">Estofado lento cocinado en la vasija cónica de barro (tajín) que concentra el vapor en la punta y lo regresa al guiso, manteniendo jugos y aromas. Combina cordero con frutas secas como albaricoques o ciruelas, miel y almendras junto con la mezcla de especias ras el hanout (hasta 27 ingredientes). Herencia culinaria bereber y árabe-andalusí.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~480 kcal por porción</span>
+              <span class="dish-tag">📍 Siglos VIII-X · Herencia bereber y árabe</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Marruecos</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~480 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Cordero, ciruelas pasas, almendras, cebolla, miel, ras el hanout, canela, jengibre, azafrán marroquí</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglos VIII-X · Herencia culinaria bereber y árabe-andalusí en el Magreb</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Injera_with_wat.jpg/480px-Injera_with_wat.jpg" alt="Injera con Wat" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🫓</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Etiopía</span>
+            <div class="dish-name">Injera con Wat</div>
+            <div class="dish-desc">Pan plano esponjoso y ácido elaborado con harina de teff (cereal endémico etíope) fermentado 3-5 días. Funciona simultáneamente como plato y cubierto. Sobre él se sirven diferentes tipos de wat (estofados picantes) aderezados con berbere, una mezcla de hasta 15 especias. Se consume en comunidad, arrancando trozos con la mano derecha.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~170 kcal por injera</span>
+              <span class="dish-tag">📍 Más de 3,000 años · Civilización aksumita</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Etiopía / Eritrea</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~170 kcal por injera</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Harina de teff, agua, sal, estofado de lentejas rojas, pollo o cordero, berbere, niter kibbeh (mantequilla especiada)</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Más de 3,000 años · Raíces en la civilización aksumita de Etiopía</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Bobotie_in_Cape_Town%2C_South_Africa_%282019%29.jpg/480px-Bobotie_in_Cape_Town%2C_South_Africa_%282019%29.jpg" alt="Bobotie" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🥘</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Sudáfrica</span>
+            <div class="dish-name">Bobotie</div>
+            <div class="dish-desc">Cazuela horneada de carne molida de res o cordero con curry, frutas secas (albaricoques, pasas), almendras y una mezcla singular de especias malayo-neerlandesas, cubierta con una capa de huevo batido con leche que se hornea formando una costra dorada. Plato nacional oficial de Sudáfrica, herencia de los esclavos malayos traídos por la Compañía Neerlandesa de las Indias Orientales en el siglo XVII.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo nacional</span>
+              <span class="dish-tag">🔥 ~450 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XVII · Esclavos malayo-holandeses del Cabo</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Ciudad del Cabo, Sudáfrica</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~450 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Carne molida de res, albaricoques secos, almendras, pasas, curry en polvo, huevo, leche, hojas de laurel, cúrcuma</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XVII · Herencia de los esclavos malayos traídos por la VOC holandesa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Egusi_soup.jpg/480px-Egusi_soup.jpg" alt="Egusi Soup" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍲</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Nigeria</span>
+            <div class="dish-name">Egusi Soup</div>
+            <div class="dish-desc">Sopa espesa y rica elaborada con semillas de melón (egusi) tostadas y molidas que espesa el caldo, combinada con hojas verdes de ugu (calabaza africana), carne o pescado ahumado, y aceite de palma roja. Es el plato de celebración más popular de Nigeria y se consume en todo el África subsahariana con fufu (masa de yuca) o eba.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Sopa principal / Platillo de celebración</span>
+              <span class="dish-tag">🔥 ~520 kcal por porción</span>
+              <span class="dish-tag">📍 Siglos de antigüedad · Yoruba, Igbo, Hausa</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Nigeria / Ghana / Costa de Marfil</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~520 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Semillas de egusi, hojas de ugu, aceite de palma, carne de chivo, pescado ahumado, cebolla, chile habanero</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglos de antigüedad · Tradición culinaria de los pueblos Yoruba, Igbo y Hausa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; <a href="index.html" style="color:var(--amber);text-decoration:none;">← Volver al inicio</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dish-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.dish-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

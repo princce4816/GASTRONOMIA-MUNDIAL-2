@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oceanía – Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+    --c-accent: #0A7A72;
+    --c-light: #E3F6F5;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    background: var(--deep);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid rgba(196,133,26,0.35);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgba(253,248,240,0.7);
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(196,133,26,0.15); border-color: var(--amber); color: var(--cream); }
+  .top-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  /* ─── HERO ─── */
+  .continent-hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(196,133,26,0.15);
+  }
+  .continent-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 100%, color-mix(in srgb, #0A7A72 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .continent-hero .flag { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .continent-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .continent-hero p {
+    font-size: 0.95rem;
+    color: rgba(253,248,240,0.6);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  /* ─── DISHES ─── */
+  .dishes-section { padding: 3rem 2rem 5rem; }
+  .dishes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .dish-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+  }
+  .dish-item:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.09); }
+  .dish-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 200px;
+  }
+  .dish-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #EDE8DF;
+  }
+  .dish-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .dish-item:hover .dish-img-wrap img { transform: scale(1.04); }
+  .dish-emoji-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--c-light);
+  }
+  .dish-content {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .dish-origin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--c-light);
+    color: var(--c-accent);
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .dish-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+  }
+  .dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .dish-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .dish-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-accent);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .dish-toggle svg { transition: transform 0.3s ease; flex-shrink: 0; }
+  .dish-item.open .dish-toggle svg { transform: rotate(180deg); }
+  .dish-expanded {
+    display: none;
+    padding: 0 1.8rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: expandDown 0.3s ease;
+  }
+  @keyframes expandDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .dish-item.open .dish-expanded { display: block; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  .exp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .exp-card.full { grid-column: 1 / -1; }
+  .exp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .exp-val.accent { color: var(--c-accent); font-weight: 600; }
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .dish-main { grid-template-columns: 1fr; }
+    .dish-img-wrap { height: 200px; }
+    .dish-emoji-fallback { min-height: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Inicio
+  </a>
+  <div class="top-bar-title"><span>🌏</span> Oceanía</div>
+</div>
+
+<section class="continent-hero">
+  <span class="flag">🌏</span>
+  <h1>Oceanía</h1>
+  <p>Explora los platillos más emblemáticos de este continente, su historia y tradición culinaria.</p>
+</section>
+
+<section class="dishes-section">
+  <div class="dishes-grid">
+
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Strawberry_Pavlova.jpg/480px-Strawberry_Pavlova.jpg" alt="Pavlova" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍰</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Australia / Nueva Zelanda</span>
+            <div class="dish-name">Pavlova</div>
+            <div class="dish-desc">Merengue de claras de huevo con una característica textura crujiente por fuera y núcleo suave y marshmallowy por dentro, lograda mediante la adición de vinagre blanco y maicena. Se cubre con crema batida y frutas tropicales frescas como maracuyá y kiwi. Existe una disputa histórica entre Australia y Nueva Zelanda que lleva un siglo sin resolverse sobre cuál nación lo creó.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Postre nacional</span>
+              <span class="dish-tag">🔥 ~340 kcal por porción</span>
+              <span class="dish-tag">📍 Circa 1926 · En honor a Anna Pavlova, bailarina rusa</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Australia / Nueva Zelanda</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~340 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Claras de huevo, azúcar glass, vinagre blanco, maicena, crema para batir, maracuyá, kiwi, frutillas</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Circa 1926 · Creado en honor a la bailarina rusa Anna Pavlova durante su gira</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/NZ_Hangi_in_progress.JPG/480px-NZ_Hangi_in_progress.JPG" alt="Hangi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🪨</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Nueva Zelanda</span>
+            <div class="dish-name">Hangi</div>
+            <div class="dish-desc">Método de cocción ancestral maorí donde carnes y vegetales envueltos en hojas de aluminio y sacos de yute se colocan sobre piedras volcánicas calentadas en un hoyo excavado en la tierra y se cocinan al vapor subterráneo durante 3-5 horas. El calor húmedo de la tierra impregna los alimentos con un sabor terroso y ahumado incomparable, usado en ceremonias como powhiri (bienvenidas) y tangi (funerales).</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo ceremonial / Festivo</span>
+              <span class="dish-tag">🔥 ~500 kcal por porción</span>
+              <span class="dish-tag">📍 Más de 700 años · Tradición maorí de Aotearoa</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Nueva Zelanda (Pueblo Maorí)</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~500 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Cordero o cerdo, kumara (batata maorí), papa, zanahoria, repollo, cebolla, hierbas nativas</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Más de 700 años · Tradición ceremonial del pueblo Maorí de Aotearoa (Nueva Zelanda)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pie_floater.jpg/480px-Pie_floater.jpg" alt="Meat Pie" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🥧</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Australia</span>
+            <div class="dish-name">Meat Pie</div>
+            <div class="dish-desc">Pastelillo individual de masa hojaldrada de mantequilla con relleno de carne molida o en cubos bañada en salsa espesa de caldo de res. Considerado el 'fast food nacional' de Australia, vendido en estadios deportivos, bakeries y corner stores desde el siglo XIX. La variante adelaidana 'pie floater' lo sirve flotando boca abajo en un plato de sopa de arvejas verdes.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Street food / Snack nacional</span>
+              <span class="dish-tag">🔥 ~450 kcal por pie</span>
+              <span class="dish-tag">📍 Siglo XIX · Herencia de los colonos británicos</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Australia (influencia británica)</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~450 kcal por pie</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Masa hojaldrada de mantequilla, carne molida de res, cebolla, salsa Worcestershire, caldo de res concentrado, pimienta negra</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XIX · Herencia culinaria de los colonos británicos en Australia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Fiji_lovo.jpg/480px-Fiji_lovo.jpg" alt="Lovo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍖</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Fiyi</span>
+            <div class="dish-name">Lovo</div>
+            <div class="dish-desc">Festín tradicional fiyiano donde carnes (cerdo, pollo, pescado) y raíces tropicales (taro, yuca, ñame) envueltas en hojas de bananero se cocinan en hoyo con carbones ardientes durante 3-4 horas. Similar al hangi maorí, es el centro de ceremonias de bienvenida (kerekere), bodas y celebraciones de toda la Melanesia y Polinesia. El humo de los carbones y la humedad de las hojas crean sabores únicos.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo ceremonial / Festivo</span>
+              <span class="dish-tag">🔥 ~480 kcal por porción</span>
+              <span class="dish-tag">📍 Milenario · Tradición melanesia y polinesia</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Fiyi, Pacífico Sur</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~480 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Cerdo o pollo, taro, yuca, ñame, batata, hojas de bananero, leche de coco, sal marina</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Milenario · Tradición ceremonial melanesia y polinesia del Pacífico Sur</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Lamington_on_white.jpg/480px-Lamington_on_white.jpg" alt="Lamington" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🧁</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Australia</span>
+            <div class="dish-name">Lamington</div>
+            <div class="dish-desc">Cubo de 5cm de bizcocho esponjoso de vainilla (génoise), sumergido completamente en un glaseado fluido de chocolate negro y rodado en coco rallado deshidratado que forma una costra exterior texturizada. Creado en Queensland alrededor de 1900 durante el gobierno del Lord Lamington. El 21 de julio es el Día Nacional del Lamington en Australia. La variante premium incluye capa de mermelada de frambuesa.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Postre nacional / Merienda</span>
+              <span class="dish-tag">🔥 ~220 kcal por pieza</span>
+              <span class="dish-tag">📍 Circa 1900 · Queensland, era colonial</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Queensland, Australia</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~220 kcal por pieza</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Bizcocho de mantequilla y vainilla, chocolate negro, coco rallado deshidratado, mermelada de frambuesa, mantequilla</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Circa 1900 · Queensland, Australia colonial. Día Nacional el 21 de julio</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; <a href="index.html" style="color:var(--amber);text-decoration:none;">← Volver al inicio</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dish-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.dish-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Europa – Gastronomía Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FDF8F0;
+    --deep: #1A1208;
+    --amber: #C4851A;
+    --amber-light: #F5E6C8;
+    --text: #2C1F0A;
+    --text-muted: #7A6848;
+    --border: rgba(196,133,26,0.2);
+    --white: #FFFFFF;
+    --c-accent: #1A4A8C;
+    --c-light: #E8EEF8;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    background: var(--deep);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid rgba(196,133,26,0.35);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgba(253,248,240,0.7);
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(196,133,26,0.15); border-color: var(--amber); color: var(--cream); }
+  .top-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  /* ─── HERO ─── */
+  .continent-hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(196,133,26,0.15);
+  }
+  .continent-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 100%, color-mix(in srgb, #1A4A8C 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .continent-hero .flag { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .continent-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .continent-hero p {
+    font-size: 0.95rem;
+    color: rgba(253,248,240,0.6);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  /* ─── DISHES ─── */
+  .dishes-section { padding: 3rem 2rem 5rem; }
+  .dishes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .dish-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+  }
+  .dish-item:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.09); }
+  .dish-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 200px;
+  }
+  .dish-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #EDE8DF;
+  }
+  .dish-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .dish-item:hover .dish-img-wrap img { transform: scale(1.04); }
+  .dish-emoji-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--c-light);
+  }
+  .dish-content {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .dish-origin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--c-light);
+    color: var(--c-accent);
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .dish-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    flex: 1;
+  }
+  .dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .dish-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .dish-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-accent);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .dish-toggle svg { transition: transform 0.3s ease; flex-shrink: 0; }
+  .dish-item.open .dish-toggle svg { transform: rotate(180deg); }
+  .dish-expanded {
+    display: none;
+    padding: 0 1.8rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: expandDown 0.3s ease;
+  }
+  @keyframes expandDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .dish-item.open .dish-expanded { display: block; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+  }
+  .exp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .exp-card.full { grid-column: 1 / -1; }
+  .exp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .exp-val.accent { color: var(--c-accent); font-weight: 600; }
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(253,248,240,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--amber); }
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .dish-main { grid-template-columns: 1fr; }
+    .dish-img-wrap { height: 200px; }
+    .dish-emoji-fallback { min-height: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Inicio
+  </a>
+  <div class="top-bar-title"><span>🌍</span> Europa</div>
+</div>
+
+<section class="continent-hero">
+  <span class="flag">🌍</span>
+  <h1>Europa</h1>
+  <p>Explora los platillos más emblemáticos de este continente, su historia y tradición culinaria.</p>
+</section>
+
+<section class="dishes-section">
+  <div class="dishes-grid">
+
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/480px-Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="Pizza Napolitana" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍕</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Italia</span>
+            <div class="dish-name">Pizza Napolitana</div>
+            <div class="dish-desc">Masa fina elaborada con harina tipo 00, fermentada en frío 24-48 horas y cocida en horno de leña a 485°C durante tan solo 90 segundos. La Margherita (1889) fue creada para la reina Margarita de Saboya con los colores de Italia: tomate rojo, mozzarella blanca y albahaca verde.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~800 kcal por pizza individual</span>
+              <span class="dish-tag">📍 Siglo XVIII · Nápoles, Reino de las Dos Sicilias</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Nápoles, Italia</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~800 kcal por pizza individual</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Harina tipo 00, tomate San Marzano DOP, mozzarella di bufala, albahaca, aceite de oliva extra virgen</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XVIII · Nápoles, Reino de las Dos Sicilias. La Margherita creada en 1889</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Paella_Valenciana_1.jpg/480px-Paella_Valenciana_1.jpg" alt="Paella Valenciana" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🥘</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">España</span>
+            <div class="dish-name">Paella Valenciana</div>
+            <div class="dish-desc">Arroz de grano redondo (bomba o senia) cocinado en caldo con azafrán en paellera plana de acero. La receta auténtica valenciana lleva pollo, conejo y judías verdes o garrofó. El socarrat, la costra tostada del fondo, es el indicador de maestría del cocinero.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~500 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XIX · Huerta valenciana, España</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Valencia, España</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~500 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Arroz bomba, pollo, conejo, judías verdes, garrofó, tomate, azafrán, pimentón, aceite de oliva</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XIX · Originado en la huerta de Valencia, España</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Poulet_au_vin.jpg/480px-Poulet_au_vin.jpg" alt="Coq au Vin" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍷</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Francia</span>
+            <div class="dish-name">Coq au Vin</div>
+            <div class="dish-desc">Pollo braseado lentamente durante horas en vino tinto de Borgoña con lardons de tocino ahumado, champiñones paris, cebollas perladas y bouquet garni. Plato rústico campesino de la Borgoña elevado a haute cuisine por Auguste Escoffier y popularizado internacionalmente por Julia Child en los años 60.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~420 kcal por porción</span>
+              <span class="dish-tag">📍 Época romana · Codificado en siglo XIX</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Borgoña, Francia</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~420 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Pollo entero, vino tinto Borgoña, champiñones, cebollas perladas, tocino ahumado, tomillo, laurel, coñac</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Época romana · Codificado como receta formal en el siglo XIX por Escoffier</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wiener-Schnitzel02.jpg/480px-Wiener-Schnitzel02.jpg" alt="Wiener Schnitzel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🥩</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Austria</span>
+            <div class="dish-name">Wiener Schnitzel</div>
+            <div class="dish-desc">Filete de ternera (Kalbfleisch) afinado a 4mm, pasado por harina, huevo y pan rallado fino, frito sumergido en mantequilla clarificada a 160°C hasta dorarse uniforme. Protegido legalmente en Austria: llamarlo 'Wiener Schnitzel' sin ser de ternera es ilegal según la ley alimentaria austriaca.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~500 kcal por porción</span>
+              <span class="dish-tag">📍 Siglo XIX · Viena, Imperio Austrohúngaro</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Viena, Austria</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~500 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Ternera (tapa), harina, huevo, pan rallado fino, mantequilla clarificada, limón, perejil</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Siglo XIX · Viena, Imperio Austrohúngaro. Protegido legalmente por denominación</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dish-item">
+        <div class="dish-main">
+          <div class="dish-img-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Greek_Moussaka.jpg/480px-Greek_Moussaka.jpg" alt="Moussaka" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="dish-emoji-fallback">🍆</div>
+          </div>
+          <div class="dish-content">
+            <span class="dish-origin-badge">Grecia</span>
+            <div class="dish-name">Moussaka</div>
+            <div class="dish-desc">Gratín de capas con berenjena asada, carne molida de cordero especiada con canela y allspice, y bechamel espesa horneada hasta dorar. Cada familia griega tiene su receta secreta. La versión moderna fue codificada por el chef Nikolaos Tselementes en 1910, incorporando la bechamel de influencia francesa.</div>
+            <div class="dish-tags">
+              <span class="dish-tag">🍽 Platillo principal</span>
+              <span class="dish-tag">🔥 ~430 kcal por porción</span>
+              <span class="dish-tag">📍 Codificado en 1910 · Influencia otomana y francesa</span>
+            </div>
+            <div class="dish-toggle">
+              Ver más detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="dish-expanded">
+          <div class="exp-grid">
+            <div class="exp-card">
+              <div class="exp-label">Origen específico</div>
+              <div class="exp-val">Grecia / Turquía / Balcanes</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-label">Calorías aprox.</div>
+              <div class="exp-val accent">~430 kcal por porción</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Ingredientes principales</div>
+              <div class="exp-val">Berenjena, cordero molido, tomate, canela, allspice, cebolla, bechamel, queso graviera</div>
+            </div>
+            <div class="exp-card full">
+              <div class="exp-label">Historia y contexto</div>
+              <div class="exp-val">Codificado en 1910 por Nikolaos Tselementes · Herencia otomana con influencia francesa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<footer>
+  <p>Gastronomía Mundial &nbsp;·&nbsp; <a href="index.html" style="color:var(--amber);text-decoration:none;">← Volver al inicio</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dish-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.dish-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
